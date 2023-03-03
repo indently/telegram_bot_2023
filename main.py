@@ -6,8 +6,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 
 print('Starting up bot...')
 
-TOKEN: Final = 'YOURE_TOKEN'
-BOT_USERNAME: Final = '@your_bot_username'
+TOKEN: Final = 'YOUR TOKEN'
+BOT_USERNAME: Final = '@your_bot_user'
 
 
 # Lets us use the /start command
@@ -41,10 +41,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Get basic info of the incoming message
     message_type = update.message.chat.type
     text = str(update.message.text).lower()
-    response = handle_response(text)
 
     # Print a log for debugging
-    print(f'User ({update.message.chat.id}) says: "{text}" in: [{message_type}]')
+    print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
 
     # React to group messages only if users mention the bot directly
     if message_type == 'group':
@@ -54,9 +53,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             response = handle_response(new_text)
         else:
             return  # We don't want the bot respond if it's not mentioned in the group
+    else:
+        response = handle_response(text)
 
     # Reply normal if the message is in private
-    print(response)
+    print('Bot:', response)
     await update.message.reply_text(response)
 
 
@@ -82,4 +83,4 @@ if __name__ == '__main__':
 
     print('Polling...')
     # Run the bot
-    app.run_polling()
+    app.run_polling(poll_interval=5)
