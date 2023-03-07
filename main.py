@@ -25,22 +25,26 @@ async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('This is a custom command, you can add whatever text you want here.')
 
 
-def handle_response(text) -> str:
+def handle_response(text: str) -> str:
     # Create your own response logic
+    processed: str = text.lower()
 
-    if 'hello' in text:
+    if 'hello' in processed:
         return 'Hey there!'
 
-    if 'how are you' in text:
+    if 'how are you' in processed:
         return 'I\'m good!'
+
+    if 'i love python' in processed:
+        return 'Remember to subscribe!'
 
     return 'I don\'t understand'
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Get basic info of the incoming message
-    message_type = update.message.chat.type
-    text = str(update.message.text).lower()
+    message_type: str = update.message.chat.type
+    text: str = update.message.text
 
     # Print a log for debugging
     print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
@@ -49,12 +53,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if message_type == 'group':
         # Replace with your bot username
         if BOT_USERNAME in text:
-            new_text = text.replace(BOT_USERNAME, '').strip()
-            response = handle_response(new_text)
+            new_text: str = text.replace(BOT_USERNAME, '').strip()
+            response: str = handle_response(new_text)
         else:
             return  # We don't want the bot respond if it's not mentioned in the group
     else:
-        response = handle_response(text)
+        response: str = handle_response(text)
 
     # Reply normal if the message is in private
     print('Bot:', response)
