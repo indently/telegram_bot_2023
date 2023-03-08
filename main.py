@@ -66,7 +66,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # Log errors
-def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context.error}')
 
 
@@ -88,3 +88,4 @@ if __name__ == '__main__':
     print('Polling...')
     # Run the bot
     app.run_polling(poll_interval=5)
+
